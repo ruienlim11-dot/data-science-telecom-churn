@@ -194,11 +194,11 @@ MODEL_COLORS = {
 }
 
 MODEL_FILE_KEYS = {
-    "Logistic Regression": "model_lr.pkl",
-    "KNN":                 "model_knn.pkl",
-    "Decision Tree":       "model_dt.pkl",
-    "Random Forest":       "model_rf.pkl",
-    "Ensemble Voting":     "model_voting.pkl",
+    "Logistic Regression": "model_lr.joblib",
+    "KNN":                 "model_knn.joblib",
+    "Decision Tree":       "model_dt.joblib",
+    "Random Forest":       "model_rf.joblib",
+    "Ensemble Voting":     "model_voting.joblib",
 }
 
 

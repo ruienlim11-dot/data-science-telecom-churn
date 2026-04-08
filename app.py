@@ -40,7 +40,7 @@ CUSTOM_CSS = """
     .hero-banner p { font-family:'Inter',sans-serif; font-size:1rem; opacity:0.85; margin:0; }
 
     .metric-card {
-        background:white; border-radius:12px; padding:1.2rem 1.5rem;
+        background-color: var(--secondary-background-color); border-radius:12px; padding:1.2rem 1.5rem;
         box-shadow:0 2px 12px rgba(0,0,0,0.06); border-left:4px solid #3498db;
         margin-bottom:1rem; transition:transform 0.2s ease;
     }
@@ -49,7 +49,7 @@ CUSTOM_CSS = """
     .metric-card.success { border-left-color:#27ae60; }
     .metric-card.warning { border-left-color:#f39c12; }
     .metric-card .metric-label { font-family:'Inter',sans-serif; font-size:0.8rem; color:#7f8c8d; text-transform:uppercase; letter-spacing:0.5px; font-weight:600; }
-    .metric-card .metric-value { font-family:'Inter',sans-serif; font-size:1.8rem; font-weight:700; color:#2c3e50; margin-top:0.2rem; }
+    .metric-card .metric-value { font-family:'Inter',sans-serif; font-size:1.8rem; font-weight:700; color:inherit; margin-top:0.2rem; }
 
     .result-high-risk {
         background:linear-gradient(135deg,#e74c3c 0%,#c0392b 100%);
@@ -64,11 +64,10 @@ CUSTOM_CSS = """
     .result-high-risk h2,.result-low-risk h2 { font-family:'Inter',sans-serif; font-size:1.6rem; font-weight:700; margin:0 0 0.3rem 0; }
     .result-high-risk p,.result-low-risk p { font-family:'Inter',sans-serif; font-size:1rem; opacity:0.9; margin:0; }
 
-    .section-header { font-family:'Inter',sans-serif; font-size:1.3rem; font-weight:600; color:#2c3e50;
+    .section-header { font-family:'Inter',sans-serif; font-size:1.3rem; font-weight:600; color:inherit;
         margin-top:1.5rem; margin-bottom:0.8rem; padding-bottom:0.4rem; border-bottom:2px solid #ecf0f1; }
 
-    section[data-testid="stSidebar"] { background:linear-gradient(180deg,#f8f9fa 0%,#e9ecef 100%); }
-    #MainMenu {visibility:hidden;} footer {visibility:hidden;}
+    footer {visibility:hidden;}
 </style>
 """
 st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
@@ -138,7 +137,7 @@ def _load_models_cached(_signature):
 
 @st.cache_resource
 def _load_scaler_cached(_mtime):
-    p = os.path.join(MODELS_DIR, "scaler.pkl")
+    p = os.path.join(MODELS_DIR, "scaler.joblib")
     if not os.path.exists(p):
         return None
     return joblib.load(p)
@@ -146,7 +145,7 @@ def _load_scaler_cached(_mtime):
 
 @st.cache_resource
 def _load_encoder_info_cached(_mtime):
-    p = os.path.join(MODELS_DIR, "encoder_info.pkl")
+    p = os.path.join(MODELS_DIR, "encoder_info.joblib")
     return joblib.load(p) if os.path.exists(p) else None
 
 
@@ -161,13 +160,13 @@ def _load_metrics_cached(_mtime):
 
 @st.cache_data
 def _load_loyal_profile_cached(_mtime):
-    p = os.path.join(MODELS_DIR, "healthy_profile.pkl")
+    p = os.path.join(MODELS_DIR, "healthy_profile.joblib")
     return joblib.load(p) if os.path.exists(p) else None
 
 
 @st.cache_data
 def _load_optimal_thresholds_cached(_mtime):
-    p = os.path.join(MODELS_DIR, "optimal_thresholds.pkl")
+    p = os.path.join(MODELS_DIR, "optimal_thresholds.joblib")
     return joblib.load(p) if os.path.exists(p) else None
 
 
@@ -192,12 +191,12 @@ def load_models():
 
 
 def load_scaler():
-    p = os.path.join(MODELS_DIR, "scaler.pkl")
+    p = os.path.join(MODELS_DIR, "scaler.joblib")
     return _load_scaler_cached(_safe_mtime(p))
 
 
 def load_encoder_info():
-    p = os.path.join(MODELS_DIR, "encoder_info.pkl")
+    p = os.path.join(MODELS_DIR, "encoder_info.joblib")
     return _load_encoder_info_cached(_safe_mtime(p))
 
 
@@ -207,12 +206,12 @@ def load_metrics():
 
 
 def load_loyal_profile():
-    p = os.path.join(MODELS_DIR, "healthy_profile.pkl")
+    p = os.path.join(MODELS_DIR, "healthy_profile.joblib")
     return _load_loyal_profile_cached(_safe_mtime(p))
 
 
 def load_optimal_thresholds():
-    p = os.path.join(MODELS_DIR, "optimal_thresholds.pkl")
+    p = os.path.join(MODELS_DIR, "optimal_thresholds.joblib")
     return _load_optimal_thresholds_cached(_safe_mtime(p))
 
 
